@@ -62,25 +62,33 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+X = [ones(m, 1) X];
 
+for i = 1 : m
+    a1 = X(i, :);
+    a2 = [1 sigmoid(a1 * Theta1')];
+    a3 = sigmoid(a2 * Theta2');
 
+    yi = zeros(num_labels, 1);
+    yi(y(i), 1) = 1;
 
+    J = J - (1 / m) * (log(a3) * yi + log(1 - a3) * (1 - yi));
 
+    d3 = a3' - yi;
+    d2 = (Theta2' * d3) .* [0; sigmoidGradient(Theta1 * a1')];
 
+    Theta2_grad = Theta2_grad + (1 / m) * (d3 * a2);
+    Theta1_grad = Theta1_grad + (1 / m) * (d2(2:end) * a1);
+end
 
+% Regularization
+J = J + (lambda / (2 * m)) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
 
+Theta1(:, 1) = zeros(size(Theta1, 1), 1);
+Theta2(:, 1) = zeros(size(Theta2, 1), 1);
 
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
+Theta1_grad = Theta1_grad + (lambda / m) * Theta1;
+Theta2_grad = Theta2_grad + (lambda / m) * Theta2;
 
 % =========================================================================
 
