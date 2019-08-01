@@ -21,7 +21,7 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-for i = 1 : length(X)
+for i = 1 : size(X, 1) % length() can only safely be used on vectors
     xi = repmat(X(i, :), K, 1);
     [~, idx(i)] = min(vecnorm(xi - centroids, 2, 2) .^ 2);
 end

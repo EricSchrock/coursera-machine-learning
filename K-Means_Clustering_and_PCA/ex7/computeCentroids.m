@@ -26,7 +26,7 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-for i = 1 : length(centroids)
+for i = 1 : size(centroids, 1) % length() can only safely be used on vectors
     centroids(i, :) = mean(X(i==idx, :));
 end
 
